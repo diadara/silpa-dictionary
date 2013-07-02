@@ -52,7 +52,7 @@ class Dictionary:
         return None
 
     def getdef(self, word, dictionary):
-        meaningstring= ""
+        meaningstring= "Not available in dictionary"
         src = dictionary.split("-")[0]
         dest = dictionary.split("-")[1]
         dictdata = self.get_free_dict(src, dest)
