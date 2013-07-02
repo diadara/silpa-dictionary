@@ -9,15 +9,30 @@ $("document").ready(function(){
         $("form").submit(function(event)
         {
             event.preventDefault();
-            console.log(this);
             fetchmeaning(this);
 
-            })
-        })
+            });
+        });
+ var baseURL = 'http://ml.wiktionary.org';
+        function showPage(page,text) {
+$("#wikitext").html(text);
+           var sourceurl = baseURL + '/wiki/' + page;
+          $('#pagetitle').text(page);
+          $('#wikiInfo').show();
+          $('#sourceurl').attr('href',sourceurl);
+          $('.editsection').hide();
+          $('.audiofile').hide();
+          // now you can modify content of #wikiInfo as you like
+          $('#wikiInfo').find('a:not(.references a):not(.extiw):not([href^="#"])').attr('href',
+                function() { return baseURL + $(this).attr('href');
+          });
+
+$(".mw-editsection").hide();
+          //
+        }
 
 
     function fetchmeaning(form){
-console.log(form)
     var word= form.word.value;
     var dictionary= form.dictionary.value;
     var jsonRequest = {
@@ -34,7 +49,7 @@ console.log(form)
     beforeSend: function(){
  $('#result').hide();
  $('#error').hide();
-
+    $('#wikiInfo').hide();
  $('#progress').html("Searching. Please Wait..").show();
 
     },
@@ -44,7 +59,6 @@ console.log(form)
 $('#result').show();
 
     var result = msg.result.replace("\n", "&#13;");
-console.log(result)
     $('#result').html("<h2>Definitions from SILPA Dictionary</h2><pre>"+ result + "</pre>");
     },
     error: function(msg) { $("#progress").hide();
@@ -52,6 +66,17 @@ console.log(result)
 
 
     }});
+
+baseURL = "http://"+dictionary.split("-")[1]+".wiktionary.org";
+                $.getJSON(baseURL+'/w/api.php?action=parse&format=json&prop=text|revid|displaytitle&callback=?&page='+word,
+    function(json) {console.log(json);
+                        if(json.parse.revid > 0) {
+                                showPage(word,json.parse.text['*']);
+                        } else {$("#wikiInfo").show()
+                                $('#wikiInfo').html('word not found');
+                                $('#licenseinfo').hide();
+                }
+                });
 
 
     }
@@ -87,11 +112,17 @@ console.log(result)
 <div class="alert hide alert-info" id="progress" ></div>
 <div class="alert hide alert-error" id="error"></div>
 <div class="alert alert-success  hide" id="result"></div>
-<div class="alert hide" id="wikiInfo"></div>
-<div class="alert hide" id="licensfeinfo" style="font-size:small; display:none;">
-  Modified original content <a id='sourceurl'>from Wiktionary</a>.
+<div class="alert alert-success hide" id="wikiInfo">
+  <h3>From Wikitionary</h3>
+<div id="wikitext">
+</div>
+<div  id="licenseinfo" style="font-size:small;">
+ Modified original content <a id='sourceurl'>from Wiktionary</a>.
   Content is available under the <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution/Share-Alike License</a>.
 </div>
+</div>
+
+
 <h3>Dictionary as your chat friend</h3>
 <p>There are other interesting ways to use the dictionaries provided here. Hindi, Kannada and Malayalam
   Dictionaries are available as chat bots. ie by adding the email address of these bots as your chat firend, you can ask the meaning of a word.
