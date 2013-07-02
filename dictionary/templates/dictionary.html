@@ -1,0 +1,124 @@
+{% extends "silpa.html" %}
+{% block modulescript %}
+  <script type="text/javascript">
+
+
+$("document").ready(function(){
+
+
+        $("form").submit(function(event)
+        {
+            event.preventDefault();
+            console.log(this);
+            fetchmeaning(this);
+
+            })
+        })
+
+
+    function fetchmeaning(form){
+console.log(form)
+    var word= form.word.value;
+    var dictionary= form.dictionary.value;
+    var jsonRequest = {
+    "method" :  "dictionary.getdef",
+    "params" : [word,dictionary],
+    "id" : ""
+    };
+    $.ajax({
+    type: "POST",
+    contentType: "application/json; charset=utf-8",
+    url: "JSONRPC",
+    data: JSON.stringify(jsonRequest),
+    dataType: "json",
+    beforeSend: function(){
+ $('#result').hide();
+ $('#error').hide();
+
+ $('#progress').html("Searching. Please Wait..").show();
+
+    },
+
+    success: function(msg) {
+    $('#progress').hide()
+$('#result').show();
+
+    var result = msg.result.replace("\n", "&#13;");
+console.log(result)
+    $('#result').html("<h2>Definitions from SILPA Dictionary</h2><pre>"+ result + "</pre>");
+    },
+    error: function(msg) { $("#progress").hide();
+    $("#error").html("Somethin went wrong..");
+
+
+    }});
+
+
+    }
+
+  </script>
+{% endblock %}
+{% block content %}
+
+  <h2>Dictionary</h2></hr>
+<p>Enter the word to lookup in the dictionary
+</p>
+<form action="" >
+  <p align="center">
+    Word : <input type="text" id="word" name="word"/>
+    Dictionary :<select id="dictionary" name="dictionary" style="width:12em;">
+    <option value="en-hi" id="en-hi" >English-Hindi</option>
+    <option value="hi-en" id="hi-en" >Hindi-English</option>
+    <option value="en-ml" id="en-ml" >English-Malayalam</option>
+    <option value="en-te" id="en-te" >English-Telugu</option>
+    <option value="en-ta" id="en-ta" >English-Tamil</option>
+    <option value="en-kn" id="en-kn" >English-Kannada</option>
+    <option value="en-or" id="en-or" >English-Oriya</option>
+    <option value="en-gn" id="en-bn" >English-Bengali</option>
+    <option value="en-gu" id="en-gu" >English-Gujarati</option>
+    </select>
+    <input type="hidden" name="action" value="Dictionary">
+</br>
+<input  type="submit"class="btn" id="Find_Meaning" value="Find Meaning"  style="width:12em;"/>
+</br>
+</p>
+</form>
+<hr/>
+<div class="alert hide alert-info" id="progress" ></div>
+<div class="alert hide alert-error" id="error"></div>
+<div class="alert alert-success  hide" id="result"></div>
+<div class="alert hide" id="wikiInfo"></div>
+<div class="alert hide" id="licensfeinfo" style="font-size:small; display:none;">
+  Modified original content <a id='sourceurl'>from Wiktionary</a>.
+  Content is available under the <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution/Share-Alike License</a>.
+</div>
+<h3>Dictionary as your chat friend</h3>
+<p>There are other interesting ways to use the dictionaries provided here. Hindi, Kannada and Malayalam
+  Dictionaries are available as chat bots. ie by adding the email address of these bots as your chat firend, you can ask the meaning of a word.
+</p>
+<p>Following are the chat contacts for the dictionaries</p>
+<ol>
+  <li>English - Malayalam Dictionary bot - eng.mal.dict@gmail.com</li>
+  <li>English - Hindi Bilingual Dictionary bot - eng.hin.dict@jabber.org</li>
+  <li>English - Kannada Dictionary bot - kn.dict.bot@jabber.org</li>
+</ol>
+<p>More information about these bots <a href="http://thottingal.in/blog/2010/11/20/dictionary-jabber-buddy-bots/">here</a></p>
+<h3> Dictionary on your Android device</h3>
+<p> The Silpa Dictionary service is available for your Android device as an application. It will render the meaning of the word as an image and send it back to your phone. It currently support English-Malayalam and English-Hindi dictionaries only. It requires at least Android 1.5 to work </p>
+<p> Installation : An APK is <a href="https://github.com/rajivnair/Silpa-Dictionary-Android-client/Silpa%20Dictionary.apk">available here</a>. Install it by browsing this site through your phone and clicking on the link or by downloading the APK into your phone’s storage and opening it from the phone.</p>
+<p> Source code of the apk is available at <a href="https://github.com/rajivnair/Silpa-Dictionary-Android-client">https://github.com/rajivnair/Silpa-Dictionary-Android-client</a> </p>
+
+<h3 name="Dictionary">Python Dictionary API</h3>
+Dictionary APIs provide dictionary lookup service.
+<ul>
+  <li>Method: dictionary.getdef</li>
+  <ul>
+    <li>arg1 : the word</li>
+    <li>arg2 : the dictionary</li>
+  </ul>
+</ul>
+Sample usage is given below
+<pre class="code">print silpaService.modules.Dictionary.getdef("help","freedict-eng-hin")</pre>
+Response will be the string containing the definition of the given word
+
+{% endblock %}

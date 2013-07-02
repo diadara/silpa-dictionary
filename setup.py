@@ -16,7 +16,7 @@ setup(
     packages = find_packages(),
     include_package_data = True,
     setup_requires = ['setuptools-git'],
-    install_requires = ['setuptools', 'BeautifulSoup''render'],
+    install_requires = ['setuptools', 'BeautifulSoup', 'render'],
     zip_safe = False,
     )
 

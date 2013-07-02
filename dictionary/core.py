@@ -32,8 +32,7 @@ import render
 renderer = render.getInstance()
 
 # One image for No image found
-no_meaning_found = renderer.render_text("No meanings found", "png", 0, 0,"Red",font_size=10)
-
+no_meaning_found = renderer.render_text("No meanings found","png",0,0,"Red",font_size=10)
 
 class Dictionary:
 
@@ -46,14 +45,13 @@ class Dictionary:
         self.imageheight = 300
 
     def get_free_dict(self, src, dest):
-        dict_dir = os.path.join(os.path.dirname(__file__), 'dictionaries')
-        dictdata = dict_dir + "m/freedict-" + src + "-" + dest
+        dict_dir=os.path.join(os.path.dirname(__file__), 'dictionaries')
+        dictdata=dict_dir+ "/freedict-"+src+"-"+dest
         if os.path.isfile(dictdata+".index"):
             return dictdata
-        return None    
+        return None
 
     def getdef(self, word, dictionary):
-
         meaningstring= ""
         src = dictionary.split("-")[0]
         dest = dictionary.split("-")[1]
@@ -70,32 +68,33 @@ class Dictionary:
             return meaningstring
         return meaningstring.decode("utf-8")
 
-    def getdef_image(self, word, dictionary, file_type ='png', width = 0, height = 0, color ="Black",fontsize = 10):
+
+    def getdef_image(self, word, dictionary, file_type='png',  width=0,  height=0, color="Black", fontsize=10):
         meaning = self.getdef(word, dictionary)
 
         if meaning == "No definition found":
             return no_meaning_found
         else:
-            return renderer.render_text(meaning, file_type, width, height, color, font_size = fontsize)
+            return renderer.render_text(meaning,file_type, width,height,color,font_size=fontsize)
 
-    def get_wiktionary_def_image(self, word, dictionary, file_type ='png',width = 0, height = 0, color ="Black",fontsize = 10):
+
+    def get_wiktionary_def_image(self, word, dictionary,file_type='png',width=0,height=0,color="Black",fontsize=10):
         tmp = dictionary.split("-")
         src_lang = tmp[0]
         dest_lang = tmp[1]
 
-        meaning = get_def(word, src_lang, dest_lang)
+        meaning = get_def(word,src_lang, dest_lang)
 
-        if meaning is None:
+        if meaning == None:
             return no_meaning_found
         else:
-            return renderer.render_text(meaning, file_type, 0, 0, color, font_size = fontsize)
+            return renderer.render_text(meaning,file_type,0,0,color,font_size=fontsize)
 
     def get_module_name(self):
         return "Dictionary"
 
     def get_info(self):
-        return "Bilingual Dictionaries"    
-
+        return  "Bilingual Dictionaries"
 
 def getInstance():
     return Dictionary()
