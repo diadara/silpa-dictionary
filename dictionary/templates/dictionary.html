@@ -84,6 +84,7 @@ baseURL = "http://"+dictionary.split("-")[1]+".wiktionary.org";
   </script>
 {% endblock %}
 {% block content %}
+<div class="well">
 
   <h2>Dictionary</h2></hr>
 <p>Enter the word to lookup in the dictionary
@@ -120,9 +121,9 @@ baseURL = "http://"+dictionary.split("-")[1]+".wiktionary.org";
  Modified original content <a id='sourceurl'>from Wiktionary</a>.
   Content is available under the <a href="http://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution/Share-Alike License</a>.
 </div>
-</div>
+</div></div>
 
-
+<div class="well">
 <h3>Dictionary as your chat friend</h3>
 <p>There are other interesting ways to use the dictionaries provided here. Hindi, Kannada and Malayalam
   Dictionaries are available as chat bots. ie by adding the email address of these bots as your chat firend, you can ask the meaning of a word.
@@ -133,12 +134,12 @@ baseURL = "http://"+dictionary.split("-")[1]+".wiktionary.org";
   <li>English - Hindi Bilingual Dictionary bot - eng.hin.dict@jabber.org</li>
   <li>English - Kannada Dictionary bot - kn.dict.bot@jabber.org</li>
 </ol>
-<p>More information about these bots <a href="http://thottingal.in/blog/2010/11/20/dictionary-jabber-buddy-bots/">here</a></p>
-<h3> Dictionary on your Android device</h3>
+<p>More information about these bots <a href="http://thottingal.in/blog/2010/11/20/dictionary-jabber-buddy-bots/">here</a></p></div>
+<div class="well"><h3> Dictionary on your Android device</h3>
 <p> The Silpa Dictionary service is available for your Android device as an application. It will render the meaning of the word as an image and send it back to your phone. It currently support English-Malayalam and English-Hindi dictionaries only. It requires at least Android 1.5 to work </p>
 <p> Installation : An APK is <a href="https://github.com/rajivnair/Silpa-Dictionary-Android-client/Silpa%20Dictionary.apk">available here</a>. Install it by browsing this site through your phone and clicking on the link or by downloading the APK into your phone’s storage and opening it from the phone.</p>
-<p> Source code of the apk is available at <a href="https://github.com/rajivnair/Silpa-Dictionary-Android-client">https://github.com/rajivnair/Silpa-Dictionary-Android-client</a> </p>
-
+<p> Source code of the apk is available at <a href="https://github.com/rajivnair/Silpa-Dictionary-Android-client">https://github.com/rajivnair/Silpa-Dictionary-Android-client</a> </p></div>
+<div class="well">
 <h3 name="Dictionary">Python Dictionary API</h3>
 Dictionary APIs provide dictionary lookup service.
 <ul>
@@ -151,5 +152,5 @@ Dictionary APIs provide dictionary lookup service.
 Sample usage is given below
 <pre class="code">print dictionary.getdef("help","freedict-eng-hin")</pre>
 Response will be the string containing the definition of the given word
-
+</div>
 {% endblock %}
