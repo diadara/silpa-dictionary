@@ -32,10 +32,16 @@ import render
 renderer = render.getInstance()
 
 # One image for No image found
-no_meaning_found = renderer.render_text("No meanings found","png",0,0,"Red",font_size=10)
+no_meaning_found = renderer.render_text("No meanings found",
+                                        file_type="png",
+                                        color="Red",
+                                        font_size=10)
+
 
 class Dictionary:
-
+    """
+    The dictionary class. Instantiate to get access to the methods.
+    """
     def __init__(self):
         self.imageyn = None
         self.text = None
@@ -45,22 +51,27 @@ class Dictionary:
         self.imageheight = 300
 
     def get_free_dict(self, src, dest):
-        dict_dir=os.path.join(os.path.dirname(__file__), 'dictionaries')
-        dictdata=dict_dir+ "/freedict-"+src+"-"+dest
+        dict_dir = os.path.join(os.path.dirname(__file__), 'dictionaries')
+        dictdata = dict_dir+ "/freedict-"+src+"-"+dest
         if os.path.isfile(dictdata+".index"):
             return dictdata
         return None
 
     def getdef(self, word, dictionary):
-        meaningstring= "Not available in dictionary"
+        """
+        :param word: The word which has to be looked up.
+        :param dictionary: The convertion needed, format src-dest
+         >>>
+        """
         src = dictionary.split("-")[0]
         dest = dictionary.split("-")[1]
         dictdata = self.get_free_dict(src, dest)
         if dictdata:
+            meaningstring = ""
             dict = DictDB(dictdata)
             clean_word = word.lower()
             clean_word = clean_word.strip()
-            meanings =  dict.getdef(clean_word)
+            meanings = dict.getdef(clean_word)
             for meaning in meanings:
                 meaningstring += meaning
         if meaningstring == "None":
@@ -68,33 +79,56 @@ class Dictionary:
             return meaningstring
         return meaningstring.decode("utf-8")
 
-
-    def getdef_image(self, word, dictionary, file_type='png',  width=0,  height=0, color="Black", fontsize=10):
+    def getdef_image(self, word, dictionary, file_type='png',
+                     width=0,  height=0, color="Black", fontsize=10):
+        """
+        Returns an image of the defenition. Useful  for machine independant
+        results
+        """
         meaning = self.getdef(word, dictionary)
 
         if meaning == "No definition found":
             return no_meaning_found
         else:
-            return renderer.render_text(meaning,file_type, width,height,color,font_size=fontsize)
+            return renderer.render_text(meaning, file_type=file_type,
+                                        width=width, height=height,
+                                        color=color, font_size=fontsize)
 
-
-    def get_wiktionary_def_image(self, word, dictionary,file_type='png',width=0,height=0,color="Black",fontsize=10):
+    def get_wiktionary_def_image(self, word, dictionary,
+                                 file_type='png', width=0, height=0,
+                                 color="Black", fontsize=10):
+        """
+        Returns an image of the defenition. Useful  for machine independant
+        results
+        """
         tmp = dictionary.split("-")
         src_lang = tmp[0]
         dest_lang = tmp[1]
 
-        meaning = get_def(word,src_lang, dest_lang)
+        meaning = get_def(word, src_lang, dest_lang)
 
-        if meaning == None:
+        if meaning is None:
             return no_meaning_found
         else:
-            return renderer.render_text(meaning,file_type,0,0,color,font_size=fontsize)
+            return renderer.render_text(meaning, file_type=file_type,
+                                        width=width, height=height,
+                                        color=color, font_size=fontsize)
 
     def get_module_name(self):
+        """
+        Returns the modules name.
+        """
         return "Dictionary"
 
     def get_info(self):
-        return  "Bilingual Dictionaries"
+        """
+        Returns more info on the module
+        """
+        return "Bilingual Dictionaries"
+
 
 def getInstance():
+    """
+    :returns: an instance of the :class:`Dictionary`
+    """
     return Dictionary()
