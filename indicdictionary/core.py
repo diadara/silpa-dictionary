@@ -22,7 +22,6 @@
 # URL: http://www.smc.org.in
 
 
-from silpa_common import *
 import os
 from dictdlib import DictDB
 from wiktionary import get_def
