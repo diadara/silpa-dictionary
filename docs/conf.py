@@ -268,6 +268,6 @@ class Mock(object):
         else:
             return Mock()
 
-MOCK_MODULES = ['render']
+MOCK_MODULES = ['render','BeautifulSoup']
 for mod_name in MOCK_MODULES:
     sys.modules[mod_name] = Mock()
