@@ -82,8 +82,8 @@ class Dictionary:
     def getdef_image(self, word, dictionary, file_type='png',
                      width=0,  height=0, color="Black", fontsize=10):
         """
-        Returns an image of the defenition. Useful  for machine independant
-        results
+        Returns an image of the definition. Useful  for machine independant
+        results.
         """
         meaning = self.getdef(word, dictionary)
 
@@ -98,7 +98,7 @@ class Dictionary:
                                  file_type='png', width=0, height=0,
                                  color="Black", fontsize=10):
         """
-        Returns an image of the defenition. Useful  for machine independant
+        Returns an image of the definition. Useful  for machine independant
         results
         """
         tmp = dictionary.split("-")
